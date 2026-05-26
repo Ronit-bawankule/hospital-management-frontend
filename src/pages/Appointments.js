@@ -36,7 +36,7 @@ function Appointments() {
         try {
 
             const response = await axios.get(
-                "http://localhost:8080/patients"
+                "https://hospital-management-backend-u64d.onrender.com"
             );
 
             setPatients(response.data);
@@ -54,7 +54,7 @@ function Appointments() {
         try {
 
             const response = await axios.get(
-                "http://localhost:8080/doctors"
+                "https://hospital-management-backend-u64d.onrender.com"
             );
 
             setDoctors(response.data);
@@ -72,7 +72,7 @@ function Appointments() {
         try {
 
             const response = await axios.get(
-                "http://localhost:8080/appointments"
+                "https://hospital-management-backend-u64d.onrender.com/appointments"
             );
 
             setAppointments(response.data);
@@ -106,7 +106,7 @@ function Appointments() {
         try {
 
             await axios.post(
-                "http://localhost:8080/appointments",
+                "https://hospital-management-backend-u64d.onrender.com/appointments",
                 appointmentData
             );
 
