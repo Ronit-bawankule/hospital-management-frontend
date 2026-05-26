@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "https://hospital-management-backend-u64d.onrender.com";
+const BASE_URL =
+    "https://hospital-management-backend-u64d.onrender.com";
 
 export const getPatients = async () => {
 

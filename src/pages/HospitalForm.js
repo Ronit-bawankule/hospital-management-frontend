@@ -54,195 +54,155 @@ function HospitalForm() {
 
     const savePatient = async () => {
 
-        const patientData = {
+    const patientData = {
 
-            name: name,
-            age: age,
-            disease: disease,
-
-            doctor: {
-                id: doctorId
-            }
-        };
-
-        try {
-
-            await addPatient(patientData);
-
-            alert("Patient Added Successfully");
-
-            setName("");
-            setAge("");
-            setDisease("");
-            setDoctorId("");
-            setSpecialization("");
-
-        }
-
-        catch(error) {
-
-            console.log(error);
-
-            alert("Error Saving Patient");
-        }
+        name: name,
+        age: age,
+        disease: disease
     };
+
+    try {
+
+        await addPatient(patientData);
+
+        alert("Patient Added Successfully");
+
+        setName("");
+        setAge("");
+        setDisease("");
+        setDoctorId("");
+        setSpecialization("");
+
+        window.location.reload();
+    }
+
+    catch(error) {
+
+        console.log(error);
+
+        alert("Error Saving Patient");
+    }
+};
 
     return (
 
-        <div style={{ display: "flex" }}>
+    <div
+        style={{
+            display: "flex",
+            minHeight: "100vh",
+            backgroundColor: "#f5f5f5"
+        }}
+    >
 
-            <Sidebar />
+        <Sidebar />
+
+        <div
+            style={{
+                flex: 1,
+                padding: "20px",
+                width: "100%",
+                marginLeft: window.innerWidth > 768 ? "240px" : "0"
+            }}
+        >
+
+            <Navbar />
 
             <div
                 style={{
-                    marginLeft: "240px",
-                    padding: "20px",
+                    backgroundColor: "white",
+                    padding: "30px",
+                    borderRadius: "10px",
                     width: "100%",
-                    backgroundColor: "#f5f5f5",
-                    minHeight: "100vh"
+                    maxWidth: "500px",
+                    margin: "20px auto",
+                    boxShadow: "0px 4px 10px rgba(0,0,0,0.1)"
                 }}
             >
 
-                <Navbar />
-
-                <div
+                <h1
                     style={{
-                        backgroundColor: "white",
-                        padding: "30px",
-                        borderRadius: "10px",
-                        width: "500px",
-                        boxShadow: "0px 4px 10px rgba(0,0,0,0.1)"
+                        textAlign: "center",
+                        marginBottom: "20px"
                     }}
                 >
 
-                    <h1>Add Patient</h1>
+                    Add Patient
 
-                    <div
+                </h1>
+
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "20px"
+                    }}
+                >
+
+                    <input
+                        type="text"
+                        placeholder="Enter Patient Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "20px",
-                            marginTop: "20px"
+                            padding: "12px",
+                            fontSize: "16px",
+                            width: "100%",
+                            boxSizing: "border-box"
+                        }}
+                    />
+
+                    <input
+                        type="number"
+                        placeholder="Enter Age"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        style={{
+                            padding: "12px",
+                            fontSize: "16px",
+                            width: "100%",
+                            boxSizing: "border-box"
+                        }}
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Enter Disease"
+                        value={disease}
+                        onChange={(e) => setDisease(e.target.value)}
+                        style={{
+                            padding: "12px",
+                            fontSize: "16px",
+                            width: "100%",
+                            boxSizing: "border-box"
+                        }}
+                    />
+
+                    <button
+                        onClick={savePatient}
+                        style={{
+                            padding: "14px",
+                            backgroundColor: "#1976d2",
+                            color: "white",
+                            border: "none",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                            borderRadius: "5px",
+                            width: "100%"
                         }}
                     >
 
-                        <input
-                            type="text"
-                            placeholder="Enter Patient Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            style={{
-                                padding: "12px",
-                                fontSize: "16px"
-                            }}
-                        />
+                        Save Patient
 
-                        <input
-                            type="number"
-                            placeholder="Enter Age"
-                            value={age}
-                            onChange={(e) => setAge(e.target.value)}
-                            style={{
-                                padding: "12px",
-                                fontSize: "16px"
-                            }}
-                        />
-
-                        <input
-                            type="text"
-                            placeholder="Enter Disease"
-                            value={disease}
-                            onChange={(e) => setDisease(e.target.value)}
-                            style={{
-                                padding: "12px",
-                                fontSize: "16px"
-                            }}
-                        />
-
-                        <select
-                            value={specialization}
-                            onChange={(e) => setSpecialization(e.target.value)}
-                            style={{
-                                padding: "12px",
-                                fontSize: "16px"
-                            }}
-                        >
-
-                            <option value="">
-                                Select Specialization
-                            </option>
-
-                            <option value="Cardiology">
-                                Cardiology
-                            </option>
-
-                            <option value="Neurology">
-                                Neurology
-                            </option>
-
-                            <option value="Orthopedic">
-                                Orthopedic
-                            </option>
-
-                            <option value="Dermatology">
-                                Dermatology
-                            </option>
-
-                        </select>
-
-                        <select
-                            value={doctorId}
-                            onChange={(e) => setDoctorId(e.target.value)}
-                            style={{
-                                padding: "12px",
-                                fontSize: "16px"
-                            }}
-                        >
-
-                            <option value="">
-                                Select Doctor
-                            </option>
-
-                            {filteredDoctors.map((doctor) => (
-
-                                <option
-                                    key={doctor.id}
-                                    value={doctor.id}
-                                >
-
-                                    {doctor.name}
-
-                                </option>
-
-                            ))}
-
-                        </select>
-
-                        <button
-                            onClick={savePatient}
-                            style={{
-                                padding: "12px",
-                                backgroundColor: "#1976d2",
-                                color: "white",
-                                border: "none",
-                                fontSize: "16px",
-                                cursor: "pointer",
-                                borderRadius: "5px"
-                            }}
-                        >
-
-                            Save Patient
-
-                        </button>
-
-                    </div>
+                    </button>
 
                 </div>
 
             </div>
 
         </div>
-    );
+
+    </div>
+);
 }
 
 export default HospitalForm;
