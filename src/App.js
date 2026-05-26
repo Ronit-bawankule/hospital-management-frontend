@@ -14,7 +14,6 @@ import Appointments from "./pages/Appointments";
 
 import Login from "./pages/Login";
 
-import ProtectedRoute from "./components/ProtectedRoute";
 
 import RoleProtectedRoute from "./components/RoleProtectedRoute";
 
