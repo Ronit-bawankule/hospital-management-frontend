@@ -18,6 +18,7 @@ function RoleProtectedRoute({
     }
 
     if(
+        user.role &&
         !allowedRoles.includes(user.role)
     ) {
 
