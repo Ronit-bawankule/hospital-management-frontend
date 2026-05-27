@@ -51,6 +51,7 @@ function App() {
                         <RoleProtectedRoute
                             allowedRoles={[
                                 "ADMIN",
+                                "DOCTOR",
                                 "RECEPTIONIST"
                             ]}
                         >
