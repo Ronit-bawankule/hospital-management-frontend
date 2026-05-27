@@ -1,29 +1,9 @@
 import { useEffect, useState } from "react";
 
 import Sidebar from "../components/Sidebar";
-
 import Navbar from "../components/Navbar";
 
 import { getPatients } from "../services/api";
-
-import {
-    Box,
-    Card,
-    CardContent,
-    Typography,
-    Grid,
-    Paper
-} from "@mui/material";
-
-import {
-    ResponsiveContainer,
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip
-} from "recharts";
 
 function Dashboard() {
 
@@ -51,236 +31,100 @@ function Dashboard() {
         }
     };
 
-    const patientCount = patients.length;
-
-    const appointmentData = [
-
-        {
-            day: "Mon",
-            appointments: 4
-        },
-
-        {
-            day: "Tue",
-            appointments: 7
-        },
-
-        {
-            day: "Wed",
-            appointments: 5
-        },
-
-        {
-            day: "Thu",
-            appointments: 8
-        },
-
-        {
-            day: "Fri",
-            appointments: 6
-        },
-
-        {
-            day: "Sat",
-            appointments: 9
-        }
-    ];
-
     return (
 
-        <Box sx={{ display: "flex" }}>
+        <div
+            style={{
+                display: "flex",
+                backgroundColor: "#f5f5f5",
+                minHeight: "100vh"
+            }}
+        >
 
             <Sidebar />
 
-            <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    p: 4,
-                    backgroundColor: "#f5f5f5",
-                    minHeight: "100vh"
+            <div
+                style={{
+                    flex: 1,
+                    padding: "20px",
+                    marginLeft:
+                        window.innerWidth > 768
+                        ? "240px"
+                        : "0"
                 }}
             >
 
                 <Navbar />
 
-                <Typography
-                    variant="h4"
-                    sx={{
-                        mb: 4,
-                        fontWeight: "bold"
+                <h1
+                    style={{
+                        marginBottom: "30px"
                     }}
                 >
 
                     Dashboard Overview
 
-                </Typography>
+                </h1>
 
-                <Grid container spacing={3}>
-
-                    <Grid item xs={12} md={4}>
-
-                        <Card
-                            sx={{
-                                backgroundColor: "#1976d2",
-                                color: "white",
-                                borderRadius: 4
-                            }}
-                        >
-
-                            <CardContent>
-
-                                <Typography variant="h6">
-
-                                    Total Patients
-
-                                </Typography>
-
-                                <Typography
-                                    variant="h3"
-                                    sx={{ mt: 2 }}
-                                >
-
-                                    {patientCount}
-
-                                </Typography>
-
-                            </CardContent>
-
-                        </Card>
-
-                    </Grid>
-
-                    <Grid item xs={12} md={4}>
-
-                        <Card
-                            sx={{
-                                backgroundColor: "#2e7d32",
-                                color: "white",
-                                borderRadius: 4
-                            }}
-                        >
-
-                            <CardContent>
-
-                                <Typography variant="h6">
-
-                                    Total Doctors
-
-                                </Typography>
-
-                                <Typography
-                                    variant="h3"
-                                    sx={{ mt: 2 }}
-                                >
-
-                                    4
-
-                                </Typography>
-
-                            </CardContent>
-
-                        </Card>
-
-                    </Grid>
-
-                    <Grid item xs={12} md={4}>
-
-                        <Card
-                            sx={{
-                                backgroundColor: "#ed6c02",
-                                color: "white",
-                                borderRadius: 4
-                            }}
-                        >
-
-                            <CardContent>
-
-                                <Typography variant="h6">
-
-                                    Total Appointments
-
-                                </Typography>
-
-                                <Typography
-                                    variant="h3"
-                                    sx={{ mt: 2 }}
-                                >
-
-                                    12
-
-                                </Typography>
-
-                            </CardContent>
-
-                        </Card>
-
-                    </Grid>
-
-                </Grid>
-
-                <Paper
-                    elevation={3}
-                    sx={{
-                        mt: 5,
-                        p: 4,
-                        borderRadius: 4,
-                        width: "100%",
-                        height: 500
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                            "repeat(auto-fit, minmax(250px, 1fr))",
+                        gap: "20px"
                     }}
                 >
 
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            mb: 4,
-                            fontWeight: "bold"
+                    <div
+                        style={{
+                            backgroundColor: "#1976d2",
+                            color: "white",
+                            padding: "30px",
+                            borderRadius: "10px"
                         }}
                     >
 
-                        Weekly Appointments Analytics
+                        <h2>Total Patients</h2>
 
-                    </Typography>
+                        <h1>{patients.length}</h1>
 
-                    <ResponsiveContainer
-                        width="100%"
-                        height="85%"
+                    </div>
+
+                    <div
+                        style={{
+                            backgroundColor: "#2e7d32",
+                            color: "white",
+                            padding: "30px",
+                            borderRadius: "10px"
+                        }}
                     >
 
-                        <BarChart
-                            data={appointmentData}
-                            margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 10
-                            }}
-                        >
+                        <h2>Total Doctors</h2>
 
-                            <CartesianGrid strokeDasharray="3 3" />
+                        <h1>3</h1>
 
-                            <XAxis dataKey="day" />
+                    </div>
 
-                            <YAxis />
+                    <div
+                        style={{
+                            backgroundColor: "#ed6c02",
+                            color: "white",
+                            padding: "30px",
+                            borderRadius: "10px"
+                        }}
+                    >
 
-                            <Tooltip />
+                        <h2>Total Appointments</h2>
 
-                            <Bar
-                                dataKey="appointments"
-                                fill="#1976d2"
-                                radius={[10, 10, 0, 0]}
-                                barSize={60}
-                            />
+                        <h1>12</h1>
 
-                        </BarChart>
+                    </div>
 
-                    </ResponsiveContainer>
+                </div>
 
-                </Paper>
+            </div>
 
-            </Box>
-
-        </Box>
+        </div>
     );
 }
 
