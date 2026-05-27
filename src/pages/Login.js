@@ -33,7 +33,7 @@ const handleLogin = async () => {
                 savedUser.role
             );
 
-            window.location.href = "/";
+            window.location.replace("/");
 
         }
 
