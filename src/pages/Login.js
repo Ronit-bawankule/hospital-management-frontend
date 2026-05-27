@@ -20,7 +20,7 @@ function Login() {
                 }
             );
 
-            if(response.data) {
+            if(response.data && response.data.role) {
 
                 localStorage.setItem(
                     "user",
@@ -64,7 +64,8 @@ function Login() {
                     backgroundColor: "white",
                     padding: "40px",
                     borderRadius: "10px",
-                    width: "350px",
+                    width: "90%",
+                    maxWidth: "400px",
                     boxShadow: "0px 4px 10px rgba(0,0,0,0.2)"
                 }}
             >
