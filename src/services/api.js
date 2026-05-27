@@ -17,3 +17,30 @@ export const addPatient = async (patient) => {
         patient
     );
 };
+
+export const updatePatient = async (
+    id,
+    patient
+) => {
+
+    return await axios.put(
+        `${BASE_URL}/patients/${id}`,
+        patient
+    );
+};
+
+export const deletePatient = async (
+    id
+) => {
+
+    return await axios.delete(
+        `${BASE_URL}/patients/${id}`
+    );
+};
+
+export const getDoctors = async () => {
+
+    return await axios.get(
+        `${BASE_URL}/doctors`
+    );
+};
