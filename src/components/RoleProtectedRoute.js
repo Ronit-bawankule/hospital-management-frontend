@@ -8,18 +8,21 @@ function RoleProtectedRoute({
 
 }) {
 
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
+    const storedUser =
+        localStorage.getItem("user");
 
-    if(!user) {
+    if(!storedUser) {
 
         return <Navigate to="/login" />;
     }
 
+    const user = JSON.parse(storedUser);
+
     if(
-        user.role &&
-        !allowedRoles.includes(user.role)
+        !user.role ||
+        !allowedRoles.includes(
+            user.role.toUpperCase()
+        )
     ) {
 
         return <Navigate to="/" />;
