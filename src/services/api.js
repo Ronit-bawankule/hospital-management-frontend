@@ -10,7 +10,9 @@ export const getPatients = async () => {
     );
 };
 
-export const addPatient = async (patient) => {
+export const addPatient = async (
+    patient
+) => {
 
     return await axios.post(
         `${BASE_URL}/patients`,
