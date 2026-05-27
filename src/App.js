@@ -5,17 +5,10 @@ import {
 } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
-
 import HospitalForm from "./pages/HospitalForm";
-
 import PatientApp from "./pages/PatientApp";
-
 import Appointments from "./pages/Appointments";
-
 import Login from "./pages/Login";
-
-
-import RoleProtectedRoute from "./components/RoleProtectedRoute";
 
 function App() {
 
@@ -32,69 +25,22 @@ function App() {
 
                 <Route
                     path="/"
-                    element={
-
-                        <RoleProtectedRoute
-                            allowedRoles={["ADMIN"]}
-                        >
-
-                            <Dashboard />
-
-                        </RoleProtectedRoute>
-                    }
+                    element={<Dashboard />}
                 />
 
                 <Route
                     path="/add-patient"
-                    element={
-
-                        <RoleProtectedRoute
-                            allowedRoles={[
-                                "ADMIN",
-                                "DOCTOR",
-                                "RECEPTIONIST"
-                            ]}
-                        >
-
-                            <HospitalForm />
-
-                        </RoleProtectedRoute>
-                    }
+                    element={<HospitalForm />}
                 />
 
                 <Route
                     path="/patients"
-                    element={
-
-                        <RoleProtectedRoute
-                            allowedRoles={[
-                                "ADMIN",
-                                "DOCTOR"
-                            ]}
-                        >
-
-                            <PatientApp />
-
-                        </RoleProtectedRoute>
-                    }
+                    element={<PatientApp />}
                 />
 
                 <Route
                     path="/appointments"
-                    element={
-
-                        <RoleProtectedRoute
-                            allowedRoles={[
-                                "ADMIN",
-                                "DOCTOR",
-                                "RECEPTIONIST"
-                            ]}
-                        >
-
-                            <Appointments />
-
-                        </RoleProtectedRoute>
-                    }
+                    element={<Appointments />}
                 />
 
             </Routes>
