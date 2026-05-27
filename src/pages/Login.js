@@ -1,52 +1,131 @@
-const handleLogin = async () => {
+import { useState } from "react";
 
-    try {
+import axios from "axios";
 
-        const response = await axios.post(
-            "https://hospital-management-backend-u64d.onrender.com/auth/login",
-            {
-                username,
-                password
-            }
-        );
+function Login() {
 
-        console.log("LOGIN RESPONSE:", response.data);
+    const [username, setUsername] =
+        useState("");
 
-        if(response.data) {
+    const [password, setPassword] =
+        useState("");
 
-            localStorage.clear();
+    const handleLogin = async () => {
 
-            localStorage.setItem(
-                "user",
-                JSON.stringify(response.data)
-            );
+        try {
 
-            const savedUser =
-                JSON.parse(
-                    localStorage.getItem("user")
+            const response =
+                await axios.post(
+                    "https://hospital-management-backend-u64d.onrender.com/auth/login",
+                    {
+                        username,
+                        password
+                    }
                 );
 
-            console.log("SAVED USER:", savedUser);
+            if(response.data) {
 
-            alert(
-                "Login Successful: " +
-                savedUser.role
-            );
+                localStorage.clear();
 
-            window.location.replace("/");
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data)
+                );
 
+                alert("Login Successful");
+
+                window.location.replace("/");
+            }
+
+            else {
+
+                alert("Invalid Credentials");
+            }
         }
 
-        else {
+        catch(error) {
 
-            alert("Invalid Credentials");
+            console.log(error);
+
+            alert("Login Failed");
         }
-    }
+    };
 
-    catch(error) {
+    return (
 
-        console.log(error);
+        <div style={{
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#f5f5f5"
+        }}>
 
-        alert("Login Failed");
-    }
-};
+            <div style={{
+                backgroundColor: "white",
+                padding: "40px",
+                borderRadius: "10px",
+                width: "350px"
+            }}>
+
+                <h1
+                    style={{
+                        textAlign: "center",
+                        marginBottom: "20px"
+                    }}
+                >
+                    Hospital Login
+                </h1>
+
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "20px"
+                }}>
+
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) =>
+                            setUsername(e.target.value)
+                        }
+                        style={{
+                            padding: "12px"
+                        }}
+                    />
+
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) =>
+                            setPassword(e.target.value)
+                        }
+                        style={{
+                            padding: "12px"
+                        }}
+                    />
+
+                    <button
+                        onClick={handleLogin}
+                        style={{
+                            padding: "12px",
+                            backgroundColor: "#1976d2",
+                            color: "white",
+                            border: "none",
+                            cursor: "pointer"
+                        }}
+                    >
+                        Login
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    );
+}
+
+export default Login;

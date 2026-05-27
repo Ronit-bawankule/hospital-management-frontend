@@ -6,35 +6,10 @@ import {
 } from "react-router-dom";
 
 import Login from "./pages/Login";
-
-function Dashboard() {
-
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
-
-    return (
-
-        <div
-            style={{
-                padding: "50px",
-                fontSize: "30px"
-            }}
-        >
-
-            Dashboard Working ✅
-
-            <br /><br />
-
-            Username: {user?.username}
-
-            <br />
-
-            Role: {user?.role}
-
-        </div>
-    );
-}
+import Dashboard from "./pages/Dashboard";
+import HospitalForm from "./pages/HospitalForm";
+import PatientApp from "./pages/PatientApp";
+import Appointments from "./pages/Appointments";
 
 function App() {
 
@@ -60,6 +35,21 @@ function App() {
                         ? <Dashboard />
                         : <Navigate to="/login" />
                     }
+                />
+
+                <Route
+                    path="/add-patient"
+                    element={<HospitalForm />}
+                />
+
+                <Route
+                    path="/patients"
+                    element={<PatientApp />}
+                />
+
+                <Route
+                    path="/appointments"
+                    element={<Appointments />}
                 />
 
             </Routes>

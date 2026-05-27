@@ -1,3 +1,6 @@
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+
 function Dashboard() {
 
     const user = JSON.parse(
@@ -6,22 +9,30 @@ function Dashboard() {
 
     return (
 
-        <div
-            style={{
-                padding: "40px",
-                fontSize: "30px"
-            }}
-        >
+        <div style={{
+            display: "flex",
+            backgroundColor: "#f5f5f5",
+            minHeight: "100vh"
+        }}>
 
-            Dashboard Working ✅
+            <Sidebar />
 
-            <br /><br />
+            <div style={{
+                flex: 1,
+                padding: "20px"
+            }}>
 
-            Username: {user?.username}
+                <Navbar />
 
-            <br />
+                <h1>
+                    Dashboard
+                </h1>
 
-            Role: {user?.role}
+                <h2>
+                    Welcome {user?.username}
+                </h2>
+
+            </div>
 
         </div>
     );

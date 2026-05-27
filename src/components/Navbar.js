@@ -13,77 +13,26 @@ function Navbar() {
 
     return (
 
-        <div
-            style={{
-                height: "70px",
-                backgroundColor: "white",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "0px 30px",
-                borderRadius: "10px",
-                boxShadow: "0px 2px 10px rgba(0,0,0,0.1)",
-                marginBottom: "30px"
-            }}
-        >
+        <div style={{
+            height: "70px",
+            backgroundColor: "white",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "0px 30px",
+            borderRadius: "10px"
+        }}>
 
-            <h2>
-                Hospital Management System
-            </h2>
+            <h2>Hospital Management System</h2>
 
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "20px"
-                }}
-            >
+            <div>
 
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-end"
-                    }}
-                >
+                <span>
+                    {user?.username}
+                </span>
 
-                    <span
-                        style={{
-                            fontWeight: "bold"
-                        }}
-                    >
-
-                        {user?.username}
-
-                    </span>
-
-                    <span
-                        style={{
-                            fontSize: "14px",
-                            color: "gray"
-                        }}
-                    >
-
-                        {user?.role}
-
-                    </span>
-
-                </div>
-
-                <button
-                    onClick={handleLogout}
-                    style={{
-                        backgroundColor: "red",
-                        color: "white",
-                        border: "none",
-                        padding: "10px 15px",
-                        borderRadius: "5px",
-                        cursor: "pointer"
-                    }}
-                >
-
+                <button onClick={handleLogout}>
                     Logout
-
                 </button>
 
             </div>
