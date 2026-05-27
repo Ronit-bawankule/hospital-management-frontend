@@ -1,42 +1,17 @@
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Navigate
-} from "react-router-dom";
-
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-
 function App() {
-
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
 
     return (
 
-        <BrowserRouter>
+        <div
+            style={{
+                padding: "50px",
+                fontSize: "40px"
+            }}
+        >
 
-            <Routes>
+            APP IS WORKING 🚀
 
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
-
-                <Route
-                    path="/"
-                    element={
-                        user
-                        ? <Dashboard />
-                        : <Navigate to="/login" />
-                    }
-                />
-
-            </Routes>
-
-        </BrowserRouter>
+        </div>
     );
 }
 
