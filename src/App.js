@@ -6,54 +6,28 @@ import {
 } from "react-router-dom";
 
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
-import HospitalForm from "./pages/HospitalForm";
-import PatientApp from "./pages/PatientApp";
-import Appointments from "./pages/Appointments";
 
 function App() {
 
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
+    const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-
         <BrowserRouter>
-
             <Routes>
-
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route
                     path="/"
                     element={
-                        user
-                        ? <Dashboard />
-                        : <Navigate to="/login" />
+                        user ? <Dashboard /> : <Navigate to="/login" />
                     }
                 />
-
-                <Route
-                    path="/add-patient"
-                    element={<HospitalForm />}
-                />
-
-                <Route
-                    path="/patients"
-                    element={<PatientApp />}
-                />
-
-                <Route
-                    path="/appointments"
-                    element={<Appointments />}
-                />
-
             </Routes>
-
         </BrowserRouter>
     );
 }

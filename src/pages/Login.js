@@ -1,131 +1,122 @@
 import { useState } from "react";
-
-import axios from "axios";
+import { loginUser } from "../services/api";
+import { Link } from "react-router-dom";
 
 function Login() {
-
-    const [username, setUsername] =
-        useState("");
-
-    const [password, setPassword] =
-        useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleLogin = async () => {
-
         try {
+            const response = await loginUser(email, password);
 
-            const response =
-                await axios.post(
-                    "https://hospital-management-backend-u64d.onrender.com/auth/login",
-                    {
-                        username,
-                        password
-                    }
-                );
-
-            if(response.data) {
-
-                localStorage.clear();
-
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(response.data)
-                );
-
-                alert("Login Successful");
-
+            if (response.data) {
+                localStorage.setItem("user", JSON.stringify(response.data));
                 window.location.replace("/");
-            }
-
-            else {
-
+            } else {
                 alert("Invalid Credentials");
             }
-        }
-
-        catch(error) {
-
+        } catch (error) {
             console.log(error);
-
-            alert("Login Failed");
+            alert(error?.response?.data?.message || "Login Failed");
         }
     };
 
     return (
-
         <div style={{
-            height: "100vh",
+            minHeight: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#f5f5f5"
+            background: "linear-gradient(135deg, #eef2ff, #f8fafc)",
+            padding: "16px"
         }}>
-
             <div style={{
-                backgroundColor: "white",
-                padding: "40px",
-                borderRadius: "10px",
-                width: "350px"
+                width: "100%",
+                maxWidth: "420px",
+                backgroundColor: "#fff",
+                borderRadius: "18px",
+                boxShadow: "0 20px 40px rgba(15, 23, 42, 0.12)",
+                padding: "32px"
             }}>
-
-                <h1
-                    style={{
-                        textAlign: "center",
-                        marginBottom: "20px"
-                    }}
-                >
-                    Hospital Login
+                <h1 style={{
+                    margin: 0,
+                    marginBottom: "8px",
+                    fontSize: "32px",
+                    color: "#0f172a"
+                }}>
+                    Hospital HMS
                 </h1>
 
-                <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "20px"
+                <p style={{
+                    marginTop: 0,
+                    marginBottom: "24px",
+                    color: "#64748b"
                 }}>
+                    Sign in to continue
+                </p>
 
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) =>
-                            setUsername(e.target.value)
-                        }
-                        style={{
-                            padding: "12px"
-                        }}
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        style={inputStyle}
                     />
 
                     <input
                         type="password"
                         placeholder="Password"
                         value={password}
-                        onChange={(e) =>
-                            setPassword(e.target.value)
-                        }
-                        style={{
-                            padding: "12px"
-                        }}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={inputStyle}
                     />
 
-                    <button
-                        onClick={handleLogin}
-                        style={{
-                            padding: "12px",
-                            backgroundColor: "#1976d2",
-                            color: "white",
-                            border: "none",
-                            cursor: "pointer"
-                        }}
-                    >
+                    <button onClick={handleLogin} style={buttonStyle}>
                         Login
                     </button>
 
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontSize: "14px"
+                    }}>
+                        <Link to="/forgot-password">Forgot password?</Link>
+                    </div>
+
+                    <div style={{
+                        fontSize: "13px",
+                        color: "#64748b",
+                        backgroundColor: "#f8fafc",
+                        padding: "12px",
+                        borderRadius: "12px"
+                    }}>
+                        Demo users: admin@hospital.com / admin123, doctor@hospital.com / doctor123, reception@hospital.com / reception123
+                    </div>
                 </div>
-
             </div>
-
         </div>
     );
 }
+
+const inputStyle = {
+    padding: "14px 16px",
+    borderRadius: "12px",
+    border: "1px solid #cbd5e1",
+    outline: "none",
+    fontSize: "15px"
+};
+
+const buttonStyle = {
+    padding: "14px 16px",
+    borderRadius: "12px",
+    border: "none",
+    backgroundColor: "#2563eb",
+    color: "white",
+    fontSize: "15px",
+    fontWeight: 600,
+    cursor: "pointer"
+};
 
 export default Login;

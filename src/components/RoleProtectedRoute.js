@@ -1,29 +1,15 @@
 import { Navigate } from "react-router-dom";
 
-function RoleProtectedRoute({
-    children,
-    allowedRoles
-}) {
+function RoleProtectedRoute({ children, allowedRoles }) {
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    const userData = localStorage.getItem("user");
-
-    // If no user found
-    if (!userData) {
-
+    if (!user) {
         return <Navigate to="/login" />;
     }
 
-    const user = JSON.parse(userData);
+    const role = (user.role || "").toUpperCase();
 
-    // If role missing, allow temporarily
-    if (!user.role) {
-
-        return children;
-    }
-
-    // Role check
-    if (!allowedRoles.includes(user.role)) {
-
+    if (allowedRoles && !allowedRoles.includes(role)) {
         return <Navigate to="/" />;
     }
 

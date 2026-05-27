@@ -3,6 +3,54 @@ import axios from "axios";
 const BASE_URL =
 "https://hospital-management-backend-u64d.onrender.com";
 
+export const loginUser = async (
+    email,
+    password
+) => {
+
+    return await axios.post(
+        `${BASE_URL}/auth/login`,
+        {
+            email,
+            password
+        }
+    );
+};
+
+export const registerUser = async (
+    userData
+) => {
+
+    return await axios.post(
+        `${BASE_URL}/auth/register`,
+        userData
+    );
+};
+
+export const forgotPassword = async (
+    email
+) => {
+
+    return await axios.post(
+        `${BASE_URL}/auth/forgot-password`,
+        { email }
+    );
+};
+
+export const resetPassword = async (
+    token,
+    newPassword
+) => {
+
+    return await axios.post(
+        `${BASE_URL}/auth/reset-password`,
+        {
+            token,
+            newPassword
+        }
+    );
+};
+
 export const getPatients = async () => {
 
     return await axios.get(
@@ -11,23 +59,23 @@ export const getPatients = async () => {
 };
 
 export const addPatient = async (
-    patient
+    patientData
 ) => {
 
     return await axios.post(
         `${BASE_URL}/patients`,
-        patient
+        patientData
     );
 };
 
 export const updatePatient = async (
     id,
-    patient
+    patientData
 ) => {
 
     return await axios.put(
         `${BASE_URL}/patients/${id}`,
-        patient
+        patientData
     );
 };
 
