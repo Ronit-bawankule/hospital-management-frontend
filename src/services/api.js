@@ -1,96 +1,41 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL =
-"https://hospital-management-backend-u64d.onrender.com";
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
-export const loginUser = async (
-    email,
-    password
-) => {
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+  timeout: 15000,
+});
 
-    return await axios.post(
-        `${BASE_URL}/auth/login`,
-        {
-            email,
-            password
-        }
-    );
+// Attach JWT to every request
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Handle 401 globally
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export const authAPI = {
+  login:         (data) => api.post('/api/auth/login', data),
+  forgotPassword:(data) => api.post('/api/auth/forgot-password', data),
+  resetPassword: (data) => api.post('/api/auth/reset-password', data),
+  getMe:         ()     => api.get('/api/auth/me'),
 };
 
-export const registerUser = async (
-    userData
-) => {
-
-    return await axios.post(
-        `${BASE_URL}/auth/register`,
-        userData
-    );
-};
-
-export const forgotPassword = async (
-    email
-) => {
-
-    return await axios.post(
-        `${BASE_URL}/auth/forgot-password`,
-        { email }
-    );
-};
-
-export const resetPassword = async (
-    token,
-    newPassword
-) => {
-
-    return await axios.post(
-        `${BASE_URL}/auth/reset-password`,
-        {
-            token,
-            newPassword
-        }
-    );
-};
-
-export const getPatients = async () => {
-
-    return await axios.get(
-        `${BASE_URL}/patients`
-    );
-};
-
-export const addPatient = async (
-    patientData
-) => {
-
-    return await axios.post(
-        `${BASE_URL}/patients`,
-        patientData
-    );
-};
-
-export const updatePatient = async (
-    id,
-    patientData
-) => {
-
-    return await axios.put(
-        `${BASE_URL}/patients/${id}`,
-        patientData
-    );
-};
-
-export const deletePatient = async (
-    id
-) => {
-
-    return await axios.delete(
-        `${BASE_URL}/patients/${id}`
-    );
-};
-
-export const getDoctors = async () => {
-
-    return await axios.get(
-        `${BASE_URL}/doctors`
-    );
-};
+export default api;

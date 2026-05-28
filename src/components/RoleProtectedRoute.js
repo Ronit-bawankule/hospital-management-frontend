@@ -1,19 +1,27 @@
-import { Navigate } from "react-router-dom";
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 
-function RoleProtectedRoute({ children, allowedRoles }) {
-    const user = JSON.parse(localStorage.getItem("user"));
+/**
+ * Usage:
+ * <RoleProtectedRoute allowedRoles={['ADMIN']}>
+ *   <AdminPage />
+ * </RoleProtectedRoute>
+ */
+const RoleProtectedRoute = ({ children, allowedRoles }) => {
+  const token   = localStorage.getItem('token');
+  const userStr = localStorage.getItem('user');
 
-    if (!user) {
-        return <Navigate to="/login" />;
+  if (!token || !userStr) return <Navigate to="/login" replace />;
+
+  try {
+    const user = JSON.parse(userStr);
+    if (!allowedRoles.includes(user.role)) {
+      return <Navigate to="/dashboard" replace />;
     }
-
-    const role = (user.role || "").toUpperCase();
-
-    if (allowedRoles && !allowedRoles.includes(role)) {
-        return <Navigate to="/" />;
-    }
-
     return children;
-}
+  } catch {
+    return <Navigate to="/login" replace />;
+  }
+};
 
 export default RoleProtectedRoute;

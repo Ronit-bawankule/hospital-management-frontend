@@ -1,86 +1,106 @@
-import { useState } from "react";
-import { resetPassword } from "../services/api";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { authAPI } from '../services/api';
+import './Auth.css';
 
-function ResetPassword() {
-    const [token, setToken] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [message, setMessage] = useState("");
+const ResetPassword = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
 
-    const handleSubmit = async () => {
-        try {
-            const response = await resetPassword(token, newPassword);
-            setMessage(response.data.message || "Password updated");
-        } catch (error) {
-            console.log(error);
-            setMessage(error?.response?.data?.message || "Failed");
-        }
-    };
+  const [formData, setFormData] = useState({ newPassword: '', confirmPassword: '' });
+  const [loading,  setLoading]  = useState(false);
+  const [error,    setError]    = useState('');
+  const [success,  setSuccess]  = useState(false);
 
-    return (
-        <div style={pageStyle}>
-            <div style={cardStyle}>
-                <h1 style={{ marginTop: 0 }}>Reset Password</h1>
-                <input
-                    type="text"
-                    placeholder="Reset token"
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
-                    style={inputStyle}
-                />
-                <input
-                    type="password"
-                    placeholder="New password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    style={inputStyle}
-                />
-                <button onClick={handleSubmit} style={buttonStyle}>
-                    Reset Password
-                </button>
-                {message && <p>{message}</p>}
-                <Link to="/login">Back to Login</Link>
-            </div>
+  useEffect(() => {
+    if (!token) navigate('/forgot-password');
+  }, [token, navigate]);
+
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (error) setError('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.newPassword !== formData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+    if (formData.newPassword.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      await authAPI.resetPassword({ token, newPassword: formData.newPassword });
+      setSuccess(true);
+      setTimeout(() => navigate('/login'), 3000);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Reset failed. The link may have expired.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <div className="auth-logo">🔒</div>
+          <h1>Reset Password</h1>
+          <p>{success ? 'Password changed!' : 'Set your new password'}</p>
         </div>
-    );
-}
 
-const pageStyle = {
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "16px",
-    backgroundColor: "#f8fafc"
-};
+        {error   && <div className="auth-error">⚠️ {error}</div>}
+        {success && (
+          <div className="auth-success">
+            ✅ Password reset successfully! Redirecting to login in 3 seconds…
+          </div>
+        )}
 
-const cardStyle = {
-    width: "100%",
-    maxWidth: "420px",
-    backgroundColor: "#fff",
-    padding: "28px",
-    borderRadius: "18px",
-    boxShadow: "0 20px 40px rgba(15, 23, 42, 0.12)"
-};
+        {!success && (
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label htmlFor="newPassword">New Password</label>
+              <input
+                id="newPassword"
+                type="password"
+                name="newPassword"
+                value={formData.newPassword}
+                onChange={handleChange}
+                placeholder="Minimum 6 characters"
+                required
+                minLength={6}
+                autoFocus
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Re-enter new password"
+                required
+              />
+            </div>
+            <button type="submit" className="auth-btn" disabled={loading}>
+              {loading ? <span className="spinner" /> : 'Reset Password'}
+            </button>
+          </form>
+        )}
 
-const inputStyle = {
-    width: "100%",
-    padding: "14px 16px",
-    borderRadius: "12px",
-    border: "1px solid #cbd5e1",
-    marginBottom: "16px"
-};
-
-const buttonStyle = {
-    width: "100%",
-    padding: "14px 16px",
-    borderRadius: "12px",
-    border: "none",
-    backgroundColor: "#2563eb",
-    color: "white",
-    fontWeight: 600,
-    cursor: "pointer",
-    marginBottom: "16px"
+        <p className="auth-link">
+          <Link to="/login">← Back to Login</Link>
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default ResetPassword;

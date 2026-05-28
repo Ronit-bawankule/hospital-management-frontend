@@ -1,122 +1,94 @@
-import { useState } from "react";
-import { loginUser } from "../services/api";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { authAPI } from '../services/api';
+import './Auth.css';
 
-function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const Login = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [loading,  setLoading]  = useState(false);
+  const [error,    setError]    = useState('');
 
-    const handleLogin = async () => {
-        try {
-            const response = await loginUser(email, password);
+  useEffect(() => {
+    if (localStorage.getItem('token')) navigate('/dashboard');
+  }, [navigate]);
 
-            if (response.data) {
-                localStorage.setItem("user", JSON.stringify(response.data));
-                window.location.replace("/");
-            } else {
-                alert("Invalid Credentials");
-            }
-        } catch (error) {
-            console.log(error);
-            alert(error?.response?.data?.message || "Login Failed");
-        }
-    };
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (error) setError('');
+  };
 
-    return (
-        <div style={{
-            minHeight: "100vh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "linear-gradient(135deg, #eef2ff, #f8fafc)",
-            padding: "16px"
-        }}>
-            <div style={{
-                width: "100%",
-                maxWidth: "420px",
-                backgroundColor: "#fff",
-                borderRadius: "18px",
-                boxShadow: "0 20px 40px rgba(15, 23, 42, 0.12)",
-                padding: "32px"
-            }}>
-                <h1 style={{
-                    margin: 0,
-                    marginBottom: "8px",
-                    fontSize: "32px",
-                    color: "#0f172a"
-                }}>
-                    Hospital HMS
-                </h1>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const { data } = await authAPI.login(formData);
+      const { token, ...user } = data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                <p style={{
-                    marginTop: 0,
-                    marginBottom: "24px",
-                    color: "#64748b"
-                }}>
-                    Sign in to continue
-                </p>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        style={inputStyle}
-                    />
-
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={inputStyle}
-                    />
-
-                    <button onClick={handleLogin} style={buttonStyle}>
-                        Login
-                    </button>
-
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        fontSize: "14px"
-                    }}>
-                        <Link to="/forgot-password">Forgot password?</Link>
-                    </div>
-
-                    <div style={{
-                        fontSize: "13px",
-                        color: "#64748b",
-                        backgroundColor: "#f8fafc",
-                        padding: "12px",
-                        borderRadius: "12px"
-                    }}>
-                        Demo users: admin@hospital.com / admin123, doctor@hospital.com / doctor123, reception@hospital.com / reception123
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <div className="auth-logo">🏥</div>
+          <h1>Hospital Management</h1>
+          <p>Sign in to your account</p>
         </div>
-    );
-}
 
-const inputStyle = {
-    padding: "14px 16px",
-    borderRadius: "12px",
-    border: "1px solid #cbd5e1",
-    outline: "none",
-    fontSize: "15px"
-};
+        {error && <div className="auth-error">⚠️ {error}</div>}
 
-const buttonStyle = {
-    padding: "14px 16px",
-    borderRadius: "12px",
-    border: "none",
-    backgroundColor: "#2563eb",
-    color: "white",
-    fontSize: "15px",
-    fontWeight: 600,
-    cursor: "pointer"
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="admin@hospital.com"
+              required
+              autoComplete="email"
+              autoFocus
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              required
+              autoComplete="current-password"
+            />
+          </div>
+
+          <div className="form-footer">
+            <Link to="/forgot-password" className="forgot-link">
+              Forgot password?
+            </Link>
+          </div>
+
+          <button type="submit" className="auth-btn" disabled={loading}>
+            {loading ? <span className="spinner" /> : 'Sign In'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default Login;
