@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { authAPI } from '../services/api';
-import './Auth.css';
-
+import { authAPI } from '../../services/api';
+import '../../styles/auth.css';
 const ForgotPassword = () => {
   const [email,     setEmail]     = useState('');
   const [loading,   setLoading]   = useState(false);
