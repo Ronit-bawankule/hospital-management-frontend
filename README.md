@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+# Ayushman HMS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack Hospital Management System built using React, Spring Boot, PostgreSQL, JWT Authentication, and Email Services.
 
-## Available Scripts
+## Live Demo
 
-In the project directory, you can run:
+Frontend:
+https://hospital-management-frontend-4qtraiwbu-ronit-bawankles-projects.vercel.app
 
-### `npm start`
+Backend:
+https://hospital-management-backend-u64d.onrender.com
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+### Authentication & Security
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* JWT Authentication
+* Role-Based Access Control
+* Admin, Doctor, Receptionist Roles
+* BCrypt Password Encryption
 
-### `npm run build`
+### Patient Management
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Add Patient
+* Update Patient
+* Delete Patient
+* View Patient Records
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Doctor Management
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Add Doctor
+* Update Doctor
+* Delete Doctor
+* View Doctor Details
 
-### `npm run eject`
+### Appointment Management
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* Schedule Appointments
+* Appointment Email Notifications
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Billing
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* Generate Bills
+* PDF Bill Download
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Inventory Management
 
-## Learn More
+* Manage Medicines
+* Low Inventory Email Alerts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Dashboard
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Total Patients
+* Total Doctors
+* Total Appointments
+* Revenue Statistics
 
-### Code Splitting
+### Reports
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* Excel Export for Patient Records
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Tech Stack
 
-### Making a Progressive Web App
+### Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* React.js
+* Axios
+* Bootstrap
 
-### Advanced Configuration
+### Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* JWT
+
+### Database
+
+* PostgreSQL (Neon)
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+* Frontend: Vercel
+* Backend: Render
 
-### `npm run build` fails to minify
+### Additional Services
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Gmail SMTP
+* Apache POI
+* iText PDF
+
+---
+
+## Demo Credentials
+
+### Admin
+
+Email:
+[admin@hospital.com](mailto:admin@hospital.com)
+
+Password:
+admin123
+
+### Doctor
+
+Email:
+[doctor@hospital.com](mailto:doctor@hospital.com)
+
+Password:
+doctor123
+
+### Receptionist
+
+Email:
+[reception@hospital.com](mailto:reception@hospital.com)
+
+Password:
+reception123
+
+---
+
+## Screenshots
+
+Add screenshots of:
+
+* Login Page
+* Dashboard
+* Patients Module
+* Doctors Module
+* Appointments Module
+* Billing Module
+* Inventory Module
+
+---
+
+## Author
+
+Ronit Bawankule
